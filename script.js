@@ -1,27 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const box = document.getElementById("box");
-  const animateBtn = document.getElementById("animateBtn");
-  const saveBtn = document.getElementById("saveBtn");
-  const colorPicker = document.getElementById("colorPicker");
+const btn = document.getElementById('toggleThemeBtn');
+const body = document.body;
 
-  // Load saved color from localStorage
-  const savedColor = localStorage.getItem("boxColor");
-  if (savedColor) {
-    box.style.backgroundColor = savedColor;
-    colorPicker.value = savedColor;
-  }
+// Load user preference from localStorage
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.classList.add('dark-mode');
+}
 
-  // Save color to localStorage
-  saveBtn.addEventListener("click", () => {
-    const color = colorPicker.value;
-    localStorage.setItem("boxColor", color);
-    box.style.backgroundColor = color;
-    alert("Color saved!");
-  });
+// Function to toggle theme and store preference
+function toggleTheme() {
+  body.classList.toggle('dark-mode');
 
-  // Animate box on button click
-  animateBtn.addEventListener("click", () => {
-    box.classList.add("animate");
-    setTimeout(() => box.classList.remove("animate"), 600);
-  });
-});
+  // Save preference to localStorage
+  const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+  localStorage.setItem('theme', theme);
+
+  // Trigger animation
+  btn.classList.add('animate');
+
+  // Remove animation class after it finishes
+  setTimeout(() => {
+    btn.classList.remove('animate');
+  }, 600);
+}
+
+// Add event listener to the button
+btn.addEventListener('click', toggleTheme);
